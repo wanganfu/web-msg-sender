@@ -18,9 +18,9 @@ $last_online_page_count = 0;
 // PHPSocketIO服务
 $sender_io = new SocketIO(2120);
 // 客户端发起连接事件时，设置连接socket的各种事件回调
-$sender_io->on('connection', function($socket){
+$sender_io->on('connection', function($socket) {
     // 当客户端发来登录事件时触发
-    $socket->on('login', function ($uid)use($socket){
+    $socket->on('login', function ($uid) use ($socket) {
         global $uidConnectionMap, $last_online_count, $last_online_page_count;
         // 已经登录过了
         if(isset($socket->uid)){
@@ -42,12 +42,12 @@ $sender_io->on('connection', function($socket){
     });
     
     // 当客户端断开连接是触发（一般是关闭网页或者跳转刷新导致）
-    $socket->on('disconnect', function () use($socket) {
+    $socket->on('disconnect', function () use ($socket) {
         if(!isset($socket->uid))
         {
              return;
         }
-        global $uidConnectionMap, $sender_io;
+        global $uidConnectionMap;
         // 将uid的在线socket数减一
         if(--$uidConnectionMap[$socket->uid] <= 0)
         {
